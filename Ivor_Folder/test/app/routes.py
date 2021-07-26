@@ -14,10 +14,49 @@ def search():
         return render_template('index.html',data=results)
     else:
         return redirect('/')
-    
-# @app.route("/delete/<int:fips>",methods = ['POST'])
-# def delete(fips):
 
+# Test case: Deleted from database: covid19 table: State row: illinois 2020-01-31
+# Once the add function is written, we should re-insert this row of data
+# date="2020-01-31" state="illinois" fips=17 cases=2 deaths=0
+@app.route("/delete",methods = ['GET','POST'])
+def delete():
+    if request.method == 'POST':
+        state = request.form['state']
+        date = request.form['date']
+        conn = db.connect()
+        query = "DELETE from State where state=\"{}\" and date=\"{}\";".format(state,date)
+        results = conn.execute(query)
+        return render_template("index.html",date=results)
+    else:
+        return redirect('/')
+
+@app.route('/update_case',methods=['GET','POST'])
+def update_case():
+    if request.method == 'POST':
+        state = request.form['state']
+        date = request.form['date']
+        case = request.form['case']
+        case = int(case)
+        conn = db.connect()
+        query = "UPDATE State SET cases={} where state=\"{}\" and date=\"{}\";".format(case,state,date)
+        results = conn.execute(query)
+        return render_template("index.html",date=results)
+    else:
+        return redirect('/')
+
+@app.route('/update_death',methods=['GET','POST'])
+def update_death():
+    if request.method == 'POST':
+        state = request.form['state']
+        date = request.form['date']
+        death = request.form['death']
+        death = int(death)
+        conn = db.connect()
+        query = "UPDATE State SET deaths={} where state=\"{}\" and date=\"{}\";".format(death,state,date)
+        results = conn.execute(query)
+        return render_template("index.html",date=results)
+    else:
+        return redirect('/')
 
 
 
