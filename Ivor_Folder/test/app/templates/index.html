@@ -39,14 +39,70 @@
         <center>
         {% for item in data %}
             <tr>
-                <td> New Cases on {{item[0]}} in {{item[1]}}: {{item[-2]}}</td>
+                <td> Total Cases until {{item[0]}} in {{item[1]}}: {{item[-2]}}</td>
                 </br>
-                <td> Deaths on {{item[0]}} in {{item[1]}}: {{item[-1]}}</td>
+                <td> Deaths until {{item[0]}} in {{item[1]}}: {{item[-1]}}</td>
                 </br>
             </tr>
         {% endfor %}
         </center>
+    </br>
+    </br>
+    <h1><center>Delete Data by Typing in State Name and Date</center></h1>
+        <form method="post" action="/delete"><center><div style="margin:0;padding:0">
+            <div><center>
+              <label for="state">State</label>
+              <input type="text" placeholder="State Name" name="state" size="30" />
+          
+              <label for="date">Date</label>
+              <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
+            </center>
+            </div>
+            <button type="Submit">Delete<i class="fa fa-search"></i>
+            </button></center>
+        </form>
+    
 
+</br>
+</br>
+<h1><center>Update Case Number by State Name and Date</center></h1>
+    <form method="post" action="/update_case"><center><div style="margin:0;padding:0">
+        <div><center>
+          <label for="state">State</label>
+          <input type="text" placeholder="State Name" name="state" size="30" />
+      
+          <label for="date">Date</label>
+          <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
+
+        </br>
+          <label for='case'>Case Number</label>
+          <input type="text" placeholder="Updated Case Number" name="case" size="30"/>
+        </center>
+        </div>
+        <button type="Submit">Update Case Number<i class="fa fa-search"></i>
+        </button></center>
+    </form>
+
+</br>
+</br>
+<h1><center>Update Death Number by State Name and Date</center></h1>
+    <form method="post" action="/update_death"><center><div style="margin:0;padding:0">
+        <div><center>
+          <label for="state">State</label>
+          <input type="text" placeholder="State Name" name="state" size="30" />
+      
+          <label for="date">Date</label>
+          <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
+
+        </br>
+          <label for='death'>Death Number</label>
+          <input type="text" placeholder="Updated Death Number" name="death" size="30"/>
+        </center>
+        </div>
+        <button type="Submit">Update Death Number<i class="fa fa-search"></i>
+        </button></center>
+    </form>
+        
 
     <!-- <footer class="footer">
       <div class="container">
