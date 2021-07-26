@@ -2,26 +2,26 @@ const mysql = require('mysql2');
 const express = require('express');
 const bodyParser = require("body-parser");
  
-// apt-get install nodejs
-// apt-get install mariadb-server
-// apt-get install npm
-// npm install mysql2
-// npm install express
-// npm install body-parser
-// sudo npm install forever -g
-// mkdir myproject
-// cd myproject
-// npm init
-// nano index.js
-// mkdir static
-// nano ./static/index.html
-// mysql
-// CREATE DATABASE mytestdatabase;
-// USE mytestdatabase;
-// CREATE TABLE mytesttable (id int NOT NULL AUTO_INCREMENT, name varchar(20) NOT NULL, money int DEFAULT 0, PRIMARY KEY (id));
-// GRANT ALL PRIVILEGES ON *.* TO 'master'@'localhost' IDENTIFIED BY 'secret';
-// sudo su
-// [node | forever] index.js
+/*apt-get install nodejs
+apt-get install mariadb-server
+apt-get install npm
+npm install mysql2
+npm install express
+npm install body-parser
+sudo npm install forever -g
+mkdir myproject
+cd myproject
+npm init
+nano index.js
+mkdir static
+nano ./static/index.html
+mysql
+CREATE DATABASE mytestdatabase;
+USE mytestdatabase;
+CREATE TABLE mytesttable (id int NOT NULL AUTO_INCREMENT, name varchar(20) NOT NULL, money int DEFAULT 0, PRIMARY KEY (id));
+GRANT ALL PRIVILEGES ON *.* TO 'master'@'localhost' IDENTIFIED BY 'secret';
+sudo su
+[node | forever] index.js*/
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'master',

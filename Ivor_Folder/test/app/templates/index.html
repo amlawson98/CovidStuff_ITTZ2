@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Covid19-Data-Log</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" href="{{ url_for('static', filename='img/cs.ico') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+
+    </head>
+
+    <body>
+
+    <main role="main" class="container extra-bottom">
+      <h1 class="mt-5"><center>Covid-19 Data Log</center></h1>
+      <!-- <p><mark>Data</mark></p> -->
+    </main>
+    
+    <form method="post" action="/search"><center><div style="margin:0;padding:0">
+        <div><center>
+          <label for="state">State</label>
+          <input type="text" placeholder="State Name" name="state" size="30" />
+      
+          <label for="date">Date</label>
+          <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
+        </center>
+        </div>
+        <button type="Submit">Submit<i class="fa fa-search"></i>
+        </button></center>
+    </form>
+        <p></p>
+        <center>
+        {% for item in data %}
+            <tr>
+                <td> New Cases on {{item[0]}} in {{item[1]}}: {{item[-2]}}</td>
+                </br>
+                <td> Deaths on {{item[0]}} in {{item[1]}}: {{item[-1]}}</td>
+                </br>
+            </tr>
+        {% endfor %}
+        </center>
+
+
+    <!-- <footer class="footer">
+      <div class="container">
+            <p class="text-muted"><small>App developed for CS411 UIUC by @linguo4</small></p>
+      </div>
+    </footer> -->
+  </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='script/modal.js') }}"></script>
+
+</html>
