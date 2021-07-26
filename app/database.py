@@ -34,6 +34,17 @@ def fetch_StateSafetyIndex() -> dict:
 
     return StateSafetyIndex_list
 
+def Generic_Select(sqlselect_code_string) -> dict:
+    """Runs a select command and returns the result
+
+    Returns:
+        A list of dictionaries
+    """
+
+    conn = db.connect()
+    query_results = conn.execute(sqlselect_code_string).fetchall()
+    conn.close()
+    return query_results
 
 # def update_statename_entry(State_FIPS: str, State_Name: str) -> None:
 #     """Updates state name based on given `State_FIPS`
