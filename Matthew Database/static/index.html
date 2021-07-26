@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		body {
+		  background-color: #CCCCCF;
+		}
+ 
+		h1 {
+		  color: #FF552E;
+		  text-align: center;
+		  font-family: arial;
+		  text-shadow: 1px 1px #13294B;
+		}
+ 
+		table {
+		  font-family: arial, sans-serif;
+		  border-collapse: collapse;
+		  width: 100%;
+		}
+ 
+		td, th {
+		  border: 1px solid #333333;
+		  text-align: left;
+		  padding: 8px;
+		}
+ 
+		tr:nth-child(even) {
+		  background-color: #dddddd;
+		}
+	</style>
+</head>
+<body>
+ 
+<h1>First Bank of UIUC</h1>
+<p>Would you like to create an account? Enter your name, and we'll set you up.</p>
+<input type="text" id='inputText'>
+<button onClick='addUser();'>Create My Account</button>
+<p>Here are the accounts of UIUC students, and how much money they have.</p>
+<table id='accounts'>
+<tr><th>Name</th><th>Balance</th></tr>
+<tr><td>Matthew</td><td>$1000</td></tr>
+<tr><td>Mathew</td><td>$1400</td></tr>
+<tr><td>Matt</td><td>$800</td></tr>
+</table>
+ 
+<script>
+	function addUser() {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				getUsers();
+			}
+		};
+		xhttp.open("POST", "/addUser", true);
+		xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+		xhttp.send(JSON.stringify({ "name": document.getElementById('inputText').value }));
+	}
+ 
+	function getUsers() {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				let resp = JSON.parse(xhttp.responseText);
+				console.log(resp);
+				let content = '<tr><th><b>Name</b></th><th>Balance</th></tr>';
+				resp['users'].forEach(x=>{
+					content += '<tr><td>'+ x['name'] +'</td><td>$'+ x['money'] +'</td></tr>'
+				});
+				document.getElementById("accounts").innerHTML = content;
+			}
+		};
+		xhttp.open("GET", "/getUsers", true);
+		xhttp.send();
+	}
+ 
+	getUsers();
+</script>
+ 
+</body>
+</html>
