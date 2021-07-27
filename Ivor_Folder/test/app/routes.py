@@ -31,6 +31,9 @@ def delete():
     else:
         return redirect('/')
 
+
+
+#try add more detail to allow partial input later
 @app.route('/insert_new_data',methods=['GET','POST'])
 def insert_new_data():
     if request.method == 'POST':
