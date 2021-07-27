@@ -22,7 +22,8 @@
       <h1 class="mt-5"><center>Covid-19 Data Log</center></h1>
       <!-- <p><mark>Data</mark></p> -->
     </main>
-    
+
+    <h1><center>Search Data by Typing in State Name and Date</center></h1>   
     <form method="post" action="/search"><center><div style="margin:0;padding:0">
         <div><center>
           <label for="state">State</label>
@@ -32,7 +33,7 @@
           <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
         </center>
         </div>
-        <button type="Submit">Submit<i class="fa fa-search"></i>
+        <button type="Search">Search<i class="fa fa-search"></i>
         </button></center>
     </form>
         <p></p>
@@ -103,26 +104,6 @@
         </button></center>
     </form>
 
-  </br>
-  <h1><center>Update Case Number by State Name and Date</center></h1>
-      <form method="post" action="/update_case"><center><div style="margin:0;padding:0">
-          <div><center>
-            <label for="state">State</label>
-            <input type="text" placeholder="State Name" name="state" size="30" />
-        
-            <label for="date">Date</label>
-            <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
-  
-          </br>
-            <label for='case'>Case Number</label>
-            <input type="text" placeholder="Updated Case Number" name="case" size="30"/>
-          </center>
-          </div>
-          <button type="Submit">Update Case Number<i class="fa fa-search"></i>
-          </button></center>
-      </form>
-  
-  </br>    
   </br>      
 
   <h1><center>Insert New Data in State Table</center></h1>
