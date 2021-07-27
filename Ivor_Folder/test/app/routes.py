@@ -36,13 +36,19 @@ def insert_new_data():
     if request.method == 'POST':
         state = request.form['state']
         fips = request.form['fips']
+        fips = int(fips)
         date = request.form['date']
         case = request.form['case']
+        case = int(case)
         death = request.form['death']
+        death = int(death)
         conn = db.connect()
-        query = 'Insert Into State VALUES (\"{}\",\"{}\",{},{},{});'.format(
+        # c = conn.cursor()
+        query = "Insert Into State(data, state, fips, cases, deaths) VALUES (%s, %s, %i, %i, %i);"%(
          date,state, fips, case, death)
         results = conn.execute(query)
+        # c.execute("Insert Into State VALUES  (%s,%s,%i,%i,%i)", (date,state, fips, case, death))
+        # conn.commit()
         return render_template("index.html",date=results)
     else:
         return redirect('/')
