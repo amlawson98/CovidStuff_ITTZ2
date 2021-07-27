@@ -8,6 +8,7 @@ def search():
     if request.method == 'POST':
         state = request.form['state']
         date = request.form['date']
+        print(date)
         conn = db.connect()
         query = "SELECT * from State where state=\"{}\" and date=\"{}\";".format(state,date)
         print(query)
