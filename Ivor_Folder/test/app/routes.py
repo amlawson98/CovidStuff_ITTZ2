@@ -10,6 +10,7 @@ def search():
         date = request.form['date']
         conn = db.connect()
         query = "SELECT * from State where state=\"{}\" and date=\"{}\";".format(state,date)
+        print(query)
         results = conn.execute(query)
         return render_template('index.html',data=results)
     else:
@@ -58,6 +59,15 @@ def update_death():
     else:
         return redirect('/')
 
+@app.route('/run_sql',methods=['GET','POST'])
+def run_sql():
+    if request.method == 'POST':
+        sql_string = request.form['sql_string']
+        conn = db.connect()
+        results = conn.execute(sql_string)
+        return render_template("index.html",date=results)
+    else:
+        return redirect('/')
 
 @app.route('/insert_new_data',methods=['GET','POST'])
 def insert_new_data():
