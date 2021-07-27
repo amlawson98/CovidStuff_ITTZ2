@@ -59,6 +59,24 @@ def update_death():
         return redirect('/')
 
 
+@app.route('/insert_new_data',methods=['GET','POST'])
+def insert_new_data():
+    if request.method == 'POST':
+        state = request.form['state']
+        date = request.form['date']
+        case = request.form['case']
+        case = int(case)
+        death = request.form['death']
+        death = int(death)
+        conn = db.connect()
+        query = 'Insert Into State(state, date, cases, deaths) VALUES (\"{}\", \"{}\", {}, {});'.format(
+        state, date, case, death)
+        results = conn.execute(query)
+        return render_template("index.html",date=results)
+    else:
+        return redirect('/')
+
+
 
 #  @app.route("/delete/<int:task_id>", methods=['POST'])
 #  def delete(task_id):
