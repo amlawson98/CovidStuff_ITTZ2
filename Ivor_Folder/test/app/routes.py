@@ -64,8 +64,11 @@ def run_sql():
     if request.method == 'POST':
         sql_string = request.form['sql_string']
         conn = db.connect()
-        results = conn.execute(sql_string)
-        return render_template("index.html",date=results)
+        try:
+            results = conn.execute(sql_string)
+        except:
+            results = ["invalid request-- May be due to incorrect syntax or absent tables"]
+        return render_template("index.html", query_output=results)
     else:
         return redirect('/')
 

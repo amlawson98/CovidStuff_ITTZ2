@@ -115,8 +115,15 @@
         <button type="Submit">Run SQL Command:<i class="fa fa-search"></i>
         </button></center>
     </form>
-</br>
-</br>
+      <p></p>
+      <center>
+      {% for item in query_output %}
+          <tr>
+              <td> {{item}}</td>
+              </br>
+          </tr>
+      {% endfor %}
+      </center>
     <!-- <footer class="footer">
       <div class="container">
             <p class="text-muted"><small>App developed for CS411 UIUC by @linguo4</small></p>
