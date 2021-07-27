@@ -8,10 +8,8 @@ def search():
     if request.method == 'POST':
         state = request.form['state']
         date = request.form['date']
-        print(date)
         conn = db.connect()
         query = "SELECT * from State where state=\"{}\" and date=\"{}\";".format(state,date)
-        print(query)
         results = conn.execute(query)
         return render_template('index.html',data=results)
     else:
@@ -19,7 +17,7 @@ def search():
 
 # Test case: Deleted from database: covid19 table: State row: illinois 2020-01-31
 # Once the add function is written, we should re-insert this row of data
-# date="2020-01-31" state="illinois" fips=17 cases=2 deaths=0
+# data="2020-01-31" state="illinois" fips=17 cases=2 deaths=0
 @app.route("/delete",methods = ['GET','POST'])
 def delete():
     if request.method == 'POST':
@@ -34,69 +32,6 @@ def delete():
 
 
 
-#try add more detail to allow partial input later
-@app.route('/insert_new_data',methods=['GET','POST'])
-def insert_new_data():
-    if request.method == 'POST':
-        state = request.form['state']
-        fips = request.form['fips']
-        fips = int(fips)
-        date = request.form['date']
-        case = request.form['case']
-        case = int(case)
-        death = request.form['death']
-        death = int(death)
-        conn = db.connect()
-        # c = conn.cursor()
-        query = "Insert Into State(date, state, fips, cases, deaths) VALUES (%s, %s, %s, %s, %s);"
-        results = conn.execute(query,(date,state, fips, case, death))
-        # c.execute("Insert Into State VALUES  (%s,%s,%i,%i,%i)", (date,state, fips, case, death))
-        # conn.commit()
-        return render_template("index.html",date=results)
-    else:
-        return redirect('/')
-
-
-@app.route('/update_case',methods=['GET','POST'])
-def update_case():
-    if request.method == 'POST':
-        state = request.form['state']
-        date = request.form['date']
-        case = request.form['case']
-        case = int(case)
-        conn = db.connect()
-        query = "UPDATE State SET cases={} where state=\"{}\" and date=\"{}\";".format(case,state,date)
-        results = conn.execute(query)
-        return render_template("index.html",date=results)
-    else:
-        return redirect('/')
-
-@app.route('/update_death',methods=['GET','POST'])
-def update_death():
-    if request.method == 'POST':
-        state = request.form['state']
-        date = request.form['date']
-        death = request.form['death']
-        death = int(death)
-        conn = db.connect()
-        query = "UPDATE State SET deaths={} where state=\"{}\" and date=\"{}\";".format(death,state,date)
-        results = conn.execute(query)
-        return render_template("index.html",date=results)
-    else:
-        return redirect('/')
-
-@app.route('/run_sql',methods=['GET','POST'])
-def run_sql():
-    if request.method == 'POST':
-        sql_string = request.form['sql_string']
-        conn = db.connect()
-        try:
-            results = conn.execute(sql_string)
-        except:
-            results = ["invalid request-- May be due to incorrect syntax or absent tables"]
-        return render_template("index.html", query_output=results)
-    else:
-        return redirect('/')
 
 
 #  @app.route("/delete/<int:task_id>", methods=['POST'])
