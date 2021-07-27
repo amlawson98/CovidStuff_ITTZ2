@@ -44,9 +44,8 @@ def insert_new_data():
         death = int(death)
         conn = db.connect()
         # c = conn.cursor()
-        query = "Insert Into State(data, state, fips, cases, deaths) VALUES (%s, %s, %i, %i, %i);"%(
-         date,state, fips, case, death)
-        results = conn.execute(query)
+        query = "Insert Into State(date, state, fips, cases, deaths) VALUES (%s, %s, %s, %s, %s);"
+        results = conn.execute(query,(date,state, fips, case, death))
         # c.execute("Insert Into State VALUES  (%s,%s,%i,%i,%i)", (date,state, fips, case, death))
         # conn.commit()
         return render_template("index.html",date=results)
