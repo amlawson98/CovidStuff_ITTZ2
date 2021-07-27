@@ -122,26 +122,32 @@
           </button></center>
       </form>
   
-  </br>       
+  </br>    
+  </br>      
+
   <h1><center>Insert New Data in State Table</center></h1>
-  <form method="post" action="/insert_new_data"><center><div style="margin:0;padding:0">
+    <form method="post" action="/insert_new_data"><center><div style="margin:0;padding:0">
       <div><center>
         <label for="state">State</label>
         <input type="text" placeholder="State Name" name="state" size="30" />
-    
+
+        <label for='fips'>State_FIPS</label>
+        <input type="text" placeholder="Insert State FIPS" name="case" size="30"/>
+
         <label for="date">Date</label>
         <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
 
       </br>
         <label for='case'>Case Number</label>
         <input type="text" placeholder="Insert Case Number" name="case" size="30"/>
+
         <label for='death'>Death Number</label>
         <input type="text" placeholder="Insert Death Number" name="case" size="30"/>
       </center>
       </div>
       <button type="Submit">Insert New Data<i class="fa fa-search"></i>
       </button></center>
-  </form>
+    </form>
 
 
 
