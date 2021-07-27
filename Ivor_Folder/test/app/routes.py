@@ -31,6 +31,23 @@ def delete():
     else:
         return redirect('/')
 
+@app.route('/insert_new_data',methods=['GET','POST'])
+def insert_new_data():
+    if request.method == 'POST':
+        state = request.form['state']
+        fips = request.form['fips']
+        date = request.form['date']
+        case = request.form['case']
+        death = request.form['death']
+        conn = db.connect()
+        query = 'Insert Into State VALUES (\"{}\",\"{}\",{},{},{});'.format(
+         date,state, fips, case, death)
+        results = conn.execute(query)
+        return render_template("index.html",date=results)
+    else:
+        return redirect('/')
+
+
 @app.route('/update_case',methods=['GET','POST'])
 def update_case():
     if request.method == 'POST':
