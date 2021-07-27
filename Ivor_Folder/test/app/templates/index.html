@@ -22,8 +22,7 @@
       <h1 class="mt-5"><center>Covid-19 Data Log</center></h1>
       <!-- <p><mark>Data</mark></p> -->
     </main>
-
-    <h1><center>Search Data by Typing in State Name and Date</center></h1>   
+    
     <form method="post" action="/search"><center><div style="margin:0;padding:0">
         <div><center>
           <label for="state">State</label>
@@ -33,7 +32,7 @@
           <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
         </center>
         </div>
-        <button type="Search">Search<i class="fa fa-search"></i>
+        <button type="Submit">Submit<i class="fa fa-search"></i>
         </button></center>
     </form>
         <p></p>
@@ -47,9 +46,7 @@
             </tr>
         {% endfor %}
         </center>
-    </br>
-    </br>
-    <h1><center>Delete Data by Typing in State Name and Date</center></h1>
+    <h2><center>Delete Data by Typing in State Name and Date</center></h2>
         <form method="post" action="/delete"><center><div style="margin:0;padding:0">
             <div><center>
               <label for="state">State</label>
@@ -63,96 +60,8 @@
             </button></center>
         </form>
     
+        
 
-</br>
-</br>
-<h1><center>Update Case Number by State Name and Date</center></h1>
-    <form method="post" action="/update_case"><center><div style="margin:0;padding:0">
-        <div><center>
-          <label for="state">State</label>
-          <input type="text" placeholder="State Name" name="state" size="30" />
-      
-          <label for="date">Date</label>
-          <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
-
-        </br>
-          <label for='case'>Case Number</label>
-          <input type="text" placeholder="Updated Case Number" name="case" size="30"/>
-        </center>
-        </div>
-        <button type="Submit">Update Case Number<i class="fa fa-search"></i>
-        </button></center>
-    </form>
-
-</br>
-</br>
-<h1><center>Update Death Number by State Name and Date</center></h1>
-    <form method="post" action="/update_death"><center><div style="margin:0;padding:0">
-        <div><center>
-          <label for="state">State</label>
-          <input type="text" placeholder="State Name" name="state" size="30" />
-      
-          <label for="date">Date</label>
-          <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
-
-        </br>
-          <label for='death'>Death Number</label>
-          <input type="text" placeholder="Updated Death Number" name="death" size="30"/>
-        </center>
-        </div>
-        <button type="Submit">Update Death Number<i class="fa fa-search"></i>
-        </button></center>
-    </form>
-
-  </br>      
-
-  <h1><center>Insert New Data in State Table</center></h1>
-    <form method="post" action="/insert_new_data"><center><div style="margin:0;padding:0">
-      <div><center>
-        <label for="state">State</label>
-        <input type="text" placeholder="State Name" name="state" size="30" />
-
-        <label for='fips'>State_FIPS</label>
-        <input type="text" placeholder="Insert State FIPS" name="fips" size="30"/>
-
-        <label for="date">Date</label>
-        <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
-
-      </br>
-        <label for='case'>Case Number</label>
-        <input type="text" placeholder="Insert Case Number" name="case" size="30"/>
-
-        <label for='death'>Death Number</label>
-        <input type="text" placeholder="Insert Death Number" name="death" size="30"/>
-      </center>
-      </div>
-      <button type="Submit">Insert New Data<i class="fa fa-search"></i>
-      </button></center>
-    </form>
-
-
-
-</br>
-</br>
-<h1><center>Query Database with SQL</center></h1>
-    <form method="post" action="/run_sql"><center><div style="margin:0;padding:0">
-        <div><center>
-          <label for="sql_string">Run SQL Command:</label>
-          <input type="text" placeholder="SELECT * FROM State;" name="sql_string" size="120" />
-        </center>
-        </div>
-        <button type="Submit">Run SQL Command:<i class="fa fa-search"></i>
-        </button></center>
-    </form>
-      <p></p>
-      <center>
-      {% for item in query_output %}
-          <tr>
-              <td> {{item}}</td>
-              </br>
-          </tr>
-      {% endfor %}
-      </center>
     <!-- <footer class="footer">
       <div class="container">
             <p class="text-muted"><small>App developed for CS411 UIUC by @linguo4</small></p>
