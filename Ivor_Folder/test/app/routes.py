@@ -251,17 +251,6 @@ def keyword_search():
         return redirect('/')
 
 @app.route('/search',methods = ['GET','POST'])
-def keyword_search():
-    if request.method == 'POST':
-        state = request.form['state']
-        date = request.form['date']
-        conn = db.connect()
-        query = "SELECT * from State where state=\"{}\" and date=\"{}\";".format(state,date)
-        results = conn.execute(query)
-        return render_template('index.html',data=results)
-    else:
-        return redirect('/')
-
 def search():
     if request.method == 'POST':
         state = request.form['state']
