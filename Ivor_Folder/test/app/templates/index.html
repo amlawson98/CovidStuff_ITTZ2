@@ -13,16 +13,58 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
-
+        
     </head>
 
     <body>
-
+    
     <main role="main" class="container extra-bottom">
       <h1 class="mt-5"><center>Covid-19 Data Log</center></h1>
       <!-- <p><mark>Data</mark></p> -->
     </main>
     
+    <br>
+    <br>
+    <h2><center>Keyword Search</center></h2>
+    <body><center>
+      <p>
+        Keyword search supports search by state name, county name and date.
+      </p>
+    </center>
+      <form method="post" action="/keyword_search"><center><div style="margin:0;padding:0">
+          <div><center>
+            <label for="state">Type in Your Query</label>
+            <input type="text" name="state" size="30" />
+          </center>
+          </div>
+          <button type="Submit">Submit<i class="fa fa-search"></i>
+          </button></center>
+      </form>
+          <p></p>
+          <center>
+            <img src={{image1}}>
+            <img src={{image2}}>
+          </center>
+    </br>
+    </br>
+
+    <br>
+    <br>
+      <form method="post" action="/wear_mask"><center><div style="margin:0;padding:0">
+          <div><center>
+            <label for="state">Type in Your Query</label>
+            <input type="text" name="state" size="30" />
+          </center>
+          </div>
+          <button type="Submit">Submit<i class="fa fa-search"></i>
+          </button></center>
+      </form>
+      <br>
+      <img src={{image}}>
+      <br>
+      <br>
+
+
     <form method="post" action="/search"><center><div style="margin:0;padding:0">
         <div><center>
           <label for="state">State</label>
@@ -61,6 +103,8 @@
             <button type="Submit">Delete<i class="fa fa-search"></i>
             </button></center>
         </form>
+
+  
     
 
 </br>
@@ -102,24 +146,6 @@
         <button type="Submit">Update Death Number<i class="fa fa-search"></i>
         </button></center>
     </form>
-
-    <h1><center>Average Case Number (Across State)</center></h1>
-    <form method="post" action="/group_by"><center><div style="margin:0;padding:0">
-        <div><center>
-          <label for="date">Date</label>
-          <input type="text" placeholder="Date" name="date" size="30" />
-        </div>
-        <button type="Submit">Average<i class="fa fa-search"></i>
-        </button></center>
-    </form>
-    <center>
-        {% for item in data2 %}
-            <tr>
-                <td> Date: {{item[0]}} Average Case Number Across State: {{item[1]}}
-                </br>
-            </tr>
-        {% endfor %}
-        </center>
 
     
     <h1><center>Worst Counties (Worse than State Average)</center></h1>
