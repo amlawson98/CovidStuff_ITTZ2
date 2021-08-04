@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Covid19-Data-Log</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" href="{{ url_for('static', filename='img/cs.ico') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+        <style>
+          .background-img {
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+          }
+
+        </style>
+        
+    </head>
+
+    <body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <!-- Container wrapper -->
+        <div class="container-fluid">
+          <!-- Toggle button -->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-mdb-toggle="collapse"
+            data-mdb-target="#navbarLeftAlignExample"
+            aria-controls="navbarLeftAlignExample"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <i class="fas fa-bars"></i>
+          </button>
+      
+          <!-- Collapsible wrapper -->
+          <div class="collapse navbar-collapse" id="navbarLeftAlignExample">
+            <!-- Left links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#Keyword">Keyword</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#Mask">Mask</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#Delete">Delete</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#Update">Update</a>
+              </li>
+            </ul>
+            <!-- Left links -->
+          </div>
+          <!-- Collapsible wrapper -->
+        </div>
+        <!-- Container wrapper -->
+      </nav>
+
+      <div style="margin-top: 30px; font-family: fantasy;background-image: url(/static/background-1.jpg);height: 200px;" class="background-img"><main role="main" class="container extra-bottom">
+        <h1 class="mt-5" style="font-size: 50px;"><center style="padding-top: 50px;">Covid-19 Data Log</center></h1>
+        <!-- <p><mark>Data</mark></p> -->
+      </main></div>
+
+    
+    
+    <div style="background-image: url(/static/fight-background.jpg);height: 600px;" class="background-img">
+      <div style="position: relative;height: auto;top: 160px;">
+        <div class="card" style="color: #f76520;background-color: rgb(255, 255, 255, 0.3); margin-bottom: 200px;    margin-right: 200px;
+        margin-left: 200px;
+        padding-top: 20px;
+        padding-bottom: 20px;">
+          <h2 ><center >
+          Keyword Search <i class="far fa-lightbulb"></i>
+        </center>
+      
+      </h2></div>
+      <body >
+        <div style="color: #f76520;background-color: rgb(255, 255, 255, 0.3);margin-right: 200px;
+        margin-left: 200px;
+        padding-top: 20px;
+        padding-bottom: 20px;">
+        <center>
+        <!-- <img src = "/static/virus.jpg", width = 500, height = 300> -->
+        <p > 
+          Keyword search supports search by state name, county name and date.
+        </p>
+      </center>
+      <!-- <section id="Keyword"> -->
+        <form method="post" action="/keyword_search" id="Keyword" ><center>
+          <div style="margin:0;padding:0 ">
+            <div class="input-group" style="width: 800px;">
+              <label for="state"></label>
+              <input type="text" class="form-control rounded" placeholder="Search" aria-label="Search"
+                aria-describedby="search-addon" name="state"/>
+              <button type="submit" class="btn btn-outline-success">search</button>
+            </div>
+          </div>
+        </form>
+      <!-- </section> -->
+      </div>
+      </body>
+    </div>
+    </div>
+    
+
+
+    <div style="background-image: url(/static/background-2.jpg);height: 600px;" class="background-img">
+      <div style="position: relative;height: auto;top: 160px;">
+        <div class="card" style="color: #4cb585;background-color: rgb(255, 255, 255, 0.3); margin-bottom: 200px;    margin-right: 200px;
+        margin-left: 200px;
+        padding-top: 20px;
+        padding-bottom: 20px;">
+          <h2 ><center >
+            Wear a Mask <i class="fas fa-head-side-mask"></i>
+        </center>
+      
+      </h2></div>
+      <body >
+        <div style="color: #4cb585;background-color: rgb(255, 255, 255, 0.3);margin-right: 200px;
+        margin-left: 200px;
+        padding-top: 20px;
+        padding-bottom: 20px;">
+        <center>
+        <!-- <img src = "/static/virus.jpg", width = 500, height = 300> -->
+        <p > 
+          The percentage of population not wearing a mask is defined as the percentage of the population who rarely or never wears a mask.
+        </p>
+      </center>
+      <!-- <section id="Keyword"> -->
+        <form method="post" action="/wear_mask" id="Mask" ><center>
+          <div style="margin:0;padding:0 ">
+            <div class="input-group" style="width: 800px;">
+              <label for="state"></label>
+              <input type="text" class="form-control rounded" placeholder="Search" aria-label="Search"
+                aria-describedby="search-addon" name="state"/>
+              <button type="submit" class="btn btn-outline-success">search</button>
+            </div>
+          </div>
+        </form>
+      <!-- </section> -->
+      </div>
+      </body>
+    </div>
+    </div>
+
+    <!-- <h2><center>Wear a Mask</center></h2>
+    <body><center>
+      
+      <p>
+        The percentage of population not wearing a mask is defined as the percentage of the population who rarely or never wears a mask.
+      </p>
+    </center>
+      <form method="post" action="/wear_mask" id="Mask"><center><div style="margin:0;padding:0">
+          <div><center>
+            <label for="state">Type in State Name</label>
+            <input type="text" name="state" size="30" />
+          </center>
+          </div>
+          <button type="Submit">Submit<i class="fa fa-search"></i>
+          </button></center>
+      </form>
+      <br>
+      <img src={{image}}>
+      <br>
+      <br>
+      </body> -->
+
+
+    <form method="post" action="/search"><center><div style="margin:0;padding:0">
+        <div><center>
+          <label for="state">State</label>
+          <input type="text" placeholder="State Name" name="state" size="30" />
+      
+          <label for="date">Date</label>
+          <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
+        </center>
+        </div>
+        <button type="Submit">Submit<i class="fa fa-search"></i>
+        </button></center>
+    </form>
+        <p></p>
+        <center>
+        {% for item in data %}
+            <tr>
+                <td> Total Cases until {{item[0]}} in {{item[1]}}: {{item[-2]}}</td>
+                </br>
+                <td> Deaths until {{item[0]}} in {{item[1]}}: {{item[-1]}}</td>
+                </br>
+            </tr>
+        {% endfor %}
+        </center>
+    </br>
+    </br>
+    <h1 id="Delete"><center>Delete Data by Typing in State Name and Date</center></h1>
+        <form method="post" action="/delete"><center><div style="margin:0;padding:0">
+            <div><center>
+              <label for="state">State</label>
+              <input type="text" placeholder="State Name" name="state" size="30" />
+          
+              <label for="date">Date</label>
+              <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
+            </center>
+            </div>
+            <button type="Submit">Delete<i class="fa fa-search"></i>
+            </button></center>
+        </form>
+
+  
+    
+
+</br>
+</br>
+<h1 id="Update"><center>Update Case Number by State Name and Date</center></h1>
+    <form method="post" action="/update_case"><center><div style="margin:0;padding:0">
+        <div><center>
+          <label for="state">State</label>
+          <input type="text" placeholder="State Name" name="state" size="30" />
+      
+          <label for="date">Date</label>
+          <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
+
+        </br>
+          <label for='case'>Case Number</label>
+          <input type="text" placeholder="Updated Case Number" name="case" size="30"/>
+        </center>
+        </div>
+        <button type="Submit">Update Case Number<i class="fa fa-search"></i>
+        </button></center>
+    </form>
+
+</br>
+</br>
+<h1><center>Update Death Number by State Name and Date</center></h1>
+    <form method="post" action="/update_death"><center><div style="margin:0;padding:0">
+        <div><center>
+          <label for="state">State Name</label>
+          <input type="text" placeholder="State Name" name="state" size="30" />
+      
+          <label for="date">Date</label>
+          <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30"/>
+
+        </br>
+          <label for='death'>Death Number</label>
+          <input type="text" placeholder="Updated Death Number" name="death" size="30"/>
+        </center>
+        </div>
+        <button type="Submit">Update Death Number<i class="fa fa-search"></i>
+        </button></center>
+    </form>
+
+    
+    <h1><center>Worst Counties (Worse than State Average)</center></h1>
+    <form method="post" action="/max_county"><center><div style="margin:0;padding:0">
+        <div><center>
+            <label for="date">Date</label>
+            <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30" />
+            <label for="state">State Name</label>
+            <input type="text" placeholder="State Name" name="state" size="30"/>
+        </div>
+        <button type="Submit">Check<i class="fa fa-search"></i>
+        </button></center>
+    </form>
+    <center>
+        {% for item in data3 %}
+            <tr>
+                <td> County: {{item[0]}} State: {{item[1]}} 
+                </br>
+                <td> Case Number: {{item[2]}}
+                </br>
+            </tr>
+
+        {% endfor %}
+        </center>
+
+    <!-- <footer class="footer">
+      <div class="container">
+            <p class="text-muted"><small>App developed for CS411 UIUC by @linguo4</small></p>
+      </div>
+    </footer> -->
+  </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='script/modal.js') }}"></script>
+
+</html>
