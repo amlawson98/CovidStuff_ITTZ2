@@ -11,6 +11,7 @@ import pandas as pd
 import mpld3 as mpld3
 import io
 import base64
+import datetime
 # from app import database as db_helper
 from app import db
 
@@ -198,7 +199,7 @@ def keyword_search():
             Canvas(fig).print_png(pngImage)
             pngImageB64String = "data:image/png;base64,"
             pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
-            return render_template('index.html',image=pngImageB64String)
+            return render_template('index.html',image1=pngImageB64String)
         elif str(user_input).lower() in date_list:
             query = "SELECT date, cases from County where date=\"{}\";".format(user_input)
             query_state = "SELECT date, cases from State where date = \"{}\";".format(user_input)
@@ -222,13 +223,15 @@ def keyword_search():
                 ax[0][0].hist(cases_state, bins = 20)
                 ax[0][1].set_title(str(user_input).upper()+' Countywise')
                 ax[0][1].set_ylabel('Case Number')
-                ax[0][1].hist(cases_county, bins = 100)
+                ax[0][1].set_xlim(xmin = 0, xmax = 150000)
+                ax[0][1].hist(cases_county, bins = 70)
                 ax[1][0].set_title(str(user_input).upper()+' Statewise')
                 ax[1][0].set_ylabel('Death')
                 ax[1][0].hist(death_state, bins = 20)
                 ax[1][1].set_title(str(user_input).upper()+' Countywise')
                 ax[1][1].set_ylabel('Death')
-                ax[1][1].hist(death_county, bins = 100)
+                ax[1][1].hist(death_county, bins = 70)
+                ax[1][1].set_xlim(xmin = 0, xmax=5000)
             pngImage = io.BytesIO()
             Canvas(fig).print_png(pngImage)
             pngImageB64String = "data:image/png;base64,"
@@ -247,6 +250,36 @@ def keyword_search():
             pngImageB64String2 = "data:image/png;base64,"
             pngImageB64String2 += base64.b64encode(pngImage2.getvalue()).decode('utf8')
             return render_template('index.html',image1=pngImageB64String, image2=pngImageB64String2)
+        else:
+            query = "SELECT date, sum(cases), sum(deaths) from State group by date;"
+            conn = db.connect()
+            results = conn.execute(query).fetchall()
+            date, cases, death = [item[0] for item in results],[int(item[1]) for item in results],[int(item[2]) for item in results]
+            data = {'Date':date, 'Cases':cases, 'Deaths':death}
+            df = pd.DataFrame(data)
+            df.iloc[0,0],df.iloc[0,1],df.iloc[0,2] = datetime.date(2020, 1, 22),1,0
+            df = df.sort_values(by = ['Date'])
+            plot = df.plot(x = 'Date', title = 'Covid-19 Historic Date: US')
+            fig = plot.get_figure()
+            fig.autofmt_xdate()
+            pngImage = io.BytesIO()
+            Canvas(fig).print_png(pngImage)
+            pngImageB64String = "data:image/png;base64,"
+            pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
+            query = "SELECT date, sum(Doses_Administrated), sum(Doses_Allocated), sum(Stage_1_Dose), sum(Stage_2_Dose) from Vaccine where Vaccine_Type = 'ALL' group by Date;"
+            conn = db.connect()
+            results = conn.execute(query).fetchall()
+            date, dose, dose_alloc, stage1, stage2 = [item[0] for item in results], [int(item[1]) for item in results], [int(item[2]) for item in results], [int(item[3]) for item in results], [int(item[4]) for item in results]
+            data = {'Date':date, 'Does Administrated':dose, "Dose Allocated":dose_alloc,'Stage 1':stage1,'Stage 2':stage2}
+            df = pd.DataFrame(data)
+            df = df.sort_values(by = ['Date'])
+            plot = df.plot(x = 'Date', title = 'Covid-19 Vaccination Data: US')
+            fig = plot.get_figure()
+            pngImage2 = io.BytesIO()
+            Canvas(fig).print_png(pngImage2)
+            pngImageB64String2 = "data:image/png;base64,"
+            pngImageB64String2 += base64.b64encode(pngImage2.getvalue()).decode('utf8')
+            return render_template('index.html', image1 = pngImageB64String, image2 = pngImageB64String2)
     else:
         return redirect('/')
 
@@ -302,9 +335,13 @@ def update_death():
     else:
         return redirect('/')
 
+<<<<<<< HEAD
 
 
 @app.route('/group_by', methods=['GET','POST'])
+=======
+@app.route('/group_by',methods=['GET','POST'])
+>>>>>>> 22afacb836a1a014352ccae12456197dc0887460
 def group_by():
     if request.method == 'POST':
         date = request.form['date']

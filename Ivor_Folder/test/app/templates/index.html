@@ -73,9 +73,39 @@
       <br>
       <br>
       </body>
+    
 
+    <br>
+    <br>
+    <h3><center>Worst Counties (Worse than State Average)</center></h3>
+    <center><img src = "/static/virus.jpg", width = 500, height = 300></center>
+    <form method="post" action="/max_county"><center><div style="margin:0;padding:0">
+        <div><center>
+            <label for="date">Date</label>
+            <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30" />
+            <label for="state">State Name</label>
+            <input type="text" placeholder="State Name" name="state" size="30"/>
+        </div>
+        <button type="Submit">Check<i class="fa fa-search"></i>
+        </button></center>
+    </form>
+    <center>
+        {% for item in data3 %}
+            <tr>
+                <td> County: {{item[0]}} State: {{item[1]}} 
+                </br>
+                <td> Case Number: {{item[2]}}
+                </br>
+            </tr>
 
+        {% endfor %}
+      </center>
+    
+    <br>
+    <br>
+    <h4><center>Search</center></h4>
     <form method="post" action="/search"><center><div style="margin:0;padding:0">
+      <img src = "/static/virus.jpg", width = 500, height = 300>
         <div><center>
           <h1><center>State Data Search</center></h1>
           <label for="state">State</label>
@@ -101,6 +131,8 @@
         </center>
     </br>
     </br>
+
+
     <h1><center>Delete Data by Typing in State Name and Date</center></h1>
         <form method="post" action="/delete"><center><div style="margin:0;padding:0">
             <div><center>
@@ -158,29 +190,6 @@
         </button></center>
     </form>
 
-    
-    <h1><center>Worst Counties (Worse than State Average)</center></h1>
-    <form method="post" action="/max_county"><center><div style="margin:0;padding:0">
-        <div><center>
-            <label for="date">Date</label>
-            <input type="text" placeholder="Date (yyyy-mm-dd)" name="date" size="30" />
-            <label for="state">State Name</label>
-            <input type="text" placeholder="State Name" name="state" size="30"/>
-        </div>
-        <button type="Submit">Check<i class="fa fa-search"></i>
-        </button></center>
-    </form>
-    <center>
-        {% for item in data3 %}
-            <tr>
-                <td> County: {{item[0]}} State: {{item[1]}} 
-                </br>
-                <td> Case Number: {{item[2]}}
-                </br>
-            </tr>
-
-        {% endfor %}
-        </center>
 
     <!-- <footer class="footer">
       <div class="container">
