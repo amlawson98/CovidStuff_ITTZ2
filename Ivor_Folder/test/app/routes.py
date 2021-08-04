@@ -58,7 +58,17 @@ def update_death():
     else:
         return redirect('/')
 
-@app.route('/group_by',methods=['GET','POST'])
+
+"""
+CREATE TRIGGER InsertBeforeUpdate
+  BEFORE UPDATE ON State
+   IF NOT EXISTS (SELECT * FROM STATE WHERE state=new.state AND date=new.date) THEN
+        INSERT INTO STATE State(date, state, fips, cases, deaths)
+        VALUES (new.date, new.state, new.fips, new.cases, new.deaths);
+   END IF;
+  END;"""
+
+@app.route('/group_by', methods=['GET','POST'])
 def group_by():
     if request.method == 'POST':
         date = request.form['date']
