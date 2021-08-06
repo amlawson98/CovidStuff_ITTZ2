@@ -19,7 +19,7 @@ from app import db
 def wear_mask():
     if request.method == 'POST':
         user_input = request.form['state'].lower()
-        query = "select distinct County.county as county_name, Mask.never+Mask.rarely as noMask, temp.final_death_count from County, Mask, (select fips, max(deaths) as final_death_count from County group by fips) as temp where County.state = \"{}\" and Mask.countyfips = County.fips and County.fips = temp.fips;".format(user_input)
+        query = "select distinct County.county as county_name, Mask.never+Mask.rarely as noMask, temp.final_death_count from County, Mask, (select fips, max(deaths) as final_death_count from County group by fips) as temp where County.state LIKE \"{}\" and Mask.countyfips = County.fips and County.fips = temp.fips;".format(user_input)
         conn = db.connect()
         results = conn.execute(query).fetchall()
         mask, death = [item[1] for item in results], [item[2] for item in results]
@@ -39,7 +39,7 @@ def wear_mask():
         corr_vac = conn.execute(query4).fetchall()
         corr_case = conn.execute(query5).fetchall()
         corr_mask_vac = conn.execute(query6).fetchall()
-        query = "select distinct County.county as county_name, Mask.never+Mask.rarely as noMask, temp.final_death_count from County, Mask, (select fips, max(cases) as final_death_count from County group by fips) as temp where County.state = \"{}\" and Mask.countyfips = County.fips and County.fips = temp.fips;".format(user_input)
+        query = "select distinct County.county as county_name, Mask.never+Mask.rarely as noMask, temp.final_death_count from County, Mask, (select fips, max(cases) as final_death_count from County group by fips) as temp where County.state LIKE \"{}\" and Mask.countyfips = County.fips and County.fips = temp.fips;".format(user_input)
         conn = db.connect()
         results = conn.execute(query).fetchall()
         mask, case = [item[1] for item in results], [item[2] for item in results]
@@ -79,6 +79,13 @@ def wear_mask():
         return redirect('/')
 
 
+def fuzzy(key, l):
+    output = []
+    for item in l:
+        if key in item:
+            output.append(item)
+    return output
+
 @app.route('/keyword_search', methods = ['GET',"POST"])
 def keyword_search():
     if request.method == 'POST':
@@ -87,61 +94,67 @@ def keyword_search():
         query1, query2, query3, query4 = "SELECT DISTINCT state from State", "SELECT DISTINCT county from County", "SELECT DISTINCT date from State", "SELECT DISTINCT Date from Vaccine"
         results1,results2,results3, results4 = conn.execute(query1).fetchall(),conn.execute(query2).fetchall(),conn.execute(query3).fetchall(),conn.execute(query4).fetchall()
         state_list, county_list, date_list, vac_date_list = [state[0].lower() for state in results1], [county[0].lower() for county in results2], [str(date[0]) for date in results3], [str(date[0]) for date in results4]
-        if str(user_input).lower() in state_list:
-            query = "SELECT date, cases from State where state=\"{}\";".format(user_input)
-            results = conn.execute(query).fetchall()
-            data = dict(results)
-            date, cases = list(data.keys()), list(data.values())
-            cases_diff = [cases[i]-cases[i-1] for i in range(1,len(cases))]
-            query = "SELECT date, deaths from State where state=\"{}\";".format(user_input)
-            results = conn.execute(query).fetchall()
-            data = dict(results)
-            date, death = list(data.keys()), list(data.values())
-            death_diff = [death[i]-death[i-1] for i in range(1,len(death))]
-            query = "SELECT Vaccine.Date, Vaccine.Doses_Administrated from Vaccine, State where Vaccine.State_FIPS = State.fips and State.state = \"{}\" and Vaccine.Vaccine_Type = 'ALL';".format(user_input)
-            results = conn.execute(query).fetchall()
-            data = dict(results)
-            vac_date, doses = list(data.keys()),list(data.values())
-            doses_diff = [doses[i]-doses[i-1] for i in range(1,len(doses))]
-            query = "SELECT Vaccine.Date, Vaccine.Stage_1_Dose from Vaccine, State where Vaccine.State_FIPS = State.fips and State.state = \"{}\" and Vaccine.Vaccine_Type = 'ALL';".format(user_input)
-            results = conn.execute(query).fetchall()
-            data = dict(results)
-            vac_date, stage1 = list(data.keys()),list(data.values())
-            query = "SELECT Vaccine.Date, Vaccine.Stage_2_Dose from Vaccine, State where Vaccine.State_FIPS = State.fips and State.state = \"{}\" and Vaccine.Vaccine_Type = 'ALL';".format(user_input)
-            results = conn.execute(query).fetchall()
-            data = dict(results)
-            vac_date, stage2 = list(data.keys()),list(data.values())
-            with plt.style.context('ggplot'):
-                fig,ax = plt.subplots(4,1,figsize=(7,15))
-                fig.autofmt_xdate()
-                ax[0].set_title(str(user_input).upper())
-                ax[0].set_ylabel('Case Number')
-                ax[0].plot(date,cases, "-", linewidth = 1, color='r')
-                ax[1].set_ylabel('Death')
-                ax[1].plot(date,death, "-", linewidth = 1, color='r')
-                ax[2].plot(date[:-1],cases_diff,'-', linewidth = 1, color='r')
-                ax[2].set_title('Daily Increment of Case Number')
-                ax[3].plot(date[:-1],death_diff,"-",linewidth=1,color='r')
-                ax[3].set_title('Daily Increment of Death Number')
-            pngImage = io.BytesIO()
-            Canvas(fig).print_png(pngImage)
-            pngImageB64String = "data:image/png;base64,"
-            pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
-            with plt.style.context('ggplot'):
-                fig,ax = plt.subplots(2,1,figsize=(7,10))
-                fig.autofmt_xdate()
-                ax[0].plot(vac_date,doses,"-",linewidth=1,color='r',label="Total Doses")
-                ax[0].plot(vac_date,stage1,"--",linewidth=1,color='g',label="Stage 1")
-                ax[0].plot(vac_date,stage2,"-.",linewidth=1, color='y',label="Stage 2")
-                ax[0].set_title('Vaccine Administrated')
-                ax[0].legend()
-                ax[1].plot(vac_date[:-1],doses_diff,"-",linewidth=1,color='r')
-                ax[1].set_title('Daily Increment of Doses Administrated')
-            pngImage2 = io.BytesIO()
-            Canvas(fig).print_png(pngImage2)
-            pngImageB64String2 = "data:image/png;base64,"
-            pngImageB64String2 += base64.b64encode(pngImage2.getvalue()).decode('utf8')
-            return render_template('index.html',image1=pngImageB64String, image2=pngImageB64String2)
+        outlist = fuzzy(str(user_input).lower(), state_list)
+        image_list_1, image_list_2 = [],[]
+        if len(outlist)>0:
+            for item in outlist:
+                user_input = item    
+                query = "SELECT date, cases from State where state=\"{}\";".format(user_input)
+                results = conn.execute(query).fetchall()
+                data = dict(results)
+                date, cases = list(data.keys()), list(data.values())
+                cases_diff = [cases[i]-cases[i-1] for i in range(1,len(cases))]
+                query = "SELECT date, deaths from State where state=\"{}\";".format(user_input)
+                results = conn.execute(query).fetchall()
+                data = dict(results)
+                date, death = list(data.keys()), list(data.values())
+                death_diff = [death[i]-death[i-1] for i in range(1,len(death))]
+                query = "SELECT Vaccine.Date, Vaccine.Doses_Administrated from Vaccine, State where Vaccine.State_FIPS = State.fips and State.state = \"{}\" and Vaccine.Vaccine_Type = 'ALL';".format(user_input)
+                results = conn.execute(query).fetchall()
+                data = dict(results)
+                vac_date, doses = list(data.keys()),list(data.values())
+                doses_diff = [doses[i]-doses[i-1] for i in range(1,len(doses))]
+                query = "SELECT Vaccine.Date, Vaccine.Stage_1_Dose from Vaccine, State where Vaccine.State_FIPS = State.fips and State.state = \"{}\" and Vaccine.Vaccine_Type = 'ALL';".format(user_input)
+                results = conn.execute(query).fetchall()
+                data = dict(results)
+                vac_date, stage1 = list(data.keys()),list(data.values())
+                query = "SELECT Vaccine.Date, Vaccine.Stage_2_Dose from Vaccine, State where Vaccine.State_FIPS = State.fips and State.state = \"{}\" and Vaccine.Vaccine_Type = 'ALL';".format(user_input)
+                results = conn.execute(query).fetchall()
+                data = dict(results)
+                vac_date, stage2 = list(data.keys()),list(data.values())
+                with plt.style.context('ggplot'):
+                    fig,ax = plt.subplots(4,1,figsize=(7,15))
+                    fig.autofmt_xdate()
+                    ax[0].set_title(str(user_input).upper())
+                    ax[0].set_ylabel('Case Number')
+                    ax[0].plot(date,cases, "-", linewidth = 1, color='r')
+                    ax[1].set_ylabel('Death')
+                    ax[1].plot(date,death, "-", linewidth = 1, color='r')
+                    ax[2].plot(date[:-1],cases_diff,'-', linewidth = 1, color='r')
+                    ax[2].set_title('Daily Increment of Case Number')
+                    ax[3].plot(date[:-1],death_diff,"-",linewidth=1,color='r')
+                    ax[3].set_title('Daily Increment of Death Number')
+                pngImage = io.BytesIO()
+                Canvas(fig).print_png(pngImage)
+                pngImageB64String = "data:image/png;base64,"
+                pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
+                image_list_1.append(pngImageB64String)
+                with plt.style.context('ggplot'):
+                    fig,ax = plt.subplots(2,1,figsize=(7,10))
+                    fig.autofmt_xdate()
+                    ax[0].plot(vac_date,doses,"-",linewidth=1,color='r',label="Total Doses")
+                    ax[0].plot(vac_date,stage1,"--",linewidth=1,color='g',label="Stage 1")
+                    ax[0].plot(vac_date,stage2,"-.",linewidth=1, color='y',label="Stage 2")
+                    ax[0].set_title('Vaccine Administrated')
+                    ax[0].legend()
+                    ax[1].plot(vac_date[:-1],doses_diff,"-",linewidth=1,color='r')
+                    ax[1].set_title('Daily Increment of Doses Administrated')
+                pngImage2 = io.BytesIO()
+                Canvas(fig).print_png(pngImage2)
+                pngImageB64String2 = "data:image/png;base64,"
+                pngImageB64String2 += base64.b64encode(pngImage2.getvalue()).decode('utf8')
+                image_list_2.append(pngImageB64String2)
+            return render_template('index.html',image1=image_list_1, image2=image_list_2)    
         elif str(user_input).lower() in county_list:
             query = "SELECT date, cases from County where county=\"{}\";".format(user_input)
             results = conn.execute(query).fetchall()
@@ -169,7 +182,8 @@ def keyword_search():
             Canvas(fig).print_png(pngImage)
             pngImageB64String = "data:image/png;base64,"
             pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
-            return render_template('index.html',image1=pngImageB64String)
+            image_list_1.append(pngImageB64String)
+            return render_template('index.html',image1=image_list_1)
         elif str(user_input).lower() in date_list:
             query = "SELECT date, cases from County where date=\"{}\";".format(user_input)
             query_state = "SELECT date, cases from State where date = \"{}\";".format(user_input)
@@ -219,7 +233,9 @@ def keyword_search():
             Canvas(fig).print_png(pngImage2)
             pngImageB64String2 = "data:image/png;base64,"
             pngImageB64String2 += base64.b64encode(pngImage2.getvalue()).decode('utf8')
-            return render_template('index.html',image1=pngImageB64String, image2=pngImageB64String2)
+            image_list_1.append(pngImageB64String)
+            image_list_1.append(pngImageB64String2)
+            return render_template('index.html',image1=image_list_1, image2=image_list_2)
         else:
             query = "SELECT date, sum(cases), sum(deaths) from State group by date;"
             conn = db.connect()
@@ -249,7 +265,9 @@ def keyword_search():
             Canvas(fig).print_png(pngImage2)
             pngImageB64String2 = "data:image/png;base64,"
             pngImageB64String2 += base64.b64encode(pngImage2.getvalue()).decode('utf8')
-            return render_template('index.html', image1 = pngImageB64String, image2 = pngImageB64String2)
+            image_list_1.append(pngImageB64String)
+            image_list_2.append(pngImageB64String2)
+            return render_template('index.html', image1 = image_list_1, image2 = image_list_2)
     else:
         return redirect('/')
 
@@ -327,7 +345,6 @@ def max_county():
         return render_template("index.html",data3=results)
     else:
         return redirect('/')
-    
 
 @app.route("/")
 def homepage():
